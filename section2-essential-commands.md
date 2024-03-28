@@ -32,18 +32,18 @@ The `man -K` command and parameter performs a global search in a whole content o
 
 ### 11. Create, delete, copy and move files and directories
 
-`ls -a` - list all (`-a`) files (including hidden files)
-`-l` - long listing format
-`-h` - human readable format (has to be combined with `-l`)
-`pwd` - print current directory
-`cd` - change directory
-`cd -` - previous directory
-`cd /` - root (top)
-`cd ..` - one up
-`touch` - creates file (and change file timestamps)
-`cp [source] [destination]` - copy file
-`cp -r [source] [destination]` - copy recursively
-`mv [source] [destination]` - move files
+* `ls -a` - list all (`-a`) files (including hidden files)
+* `-l` - long listing format
+* `-h` - human readable format (has to be combined with `-l`)
+* `pwd` - print current directory
+* `cd` - change directory
+* `cd -` - previous directory
+* `cd /` - root (top)
+* `cd ..` - one up
+* `touch` - creates file (and change file timestamps)
+* `cp [source] [destination]` - copy file
+* `cp -r [source] [destination]` - copy recu* rsively
+* `mv [source] [destination]` - move files
 
 
 Linux files are organized in tree structure 
