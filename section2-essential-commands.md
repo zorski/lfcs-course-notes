@@ -101,11 +101,11 @@ To change permissions `chmod` command is used. Permissions can be specified in f
 When SUID is set, the file will be executed as the user ID of the owner of the file instead of user ID which actually running it. SGID is the same concept but applies to group permissions. Sticky bit allows only the user owner to remove file (no matter the permissions on the directory)
 
 #### Setting SUID/SGID permissions:
-`chmod 4664 suidfile` - `4` at the beggining is setting the SUID bit. When `ls -lh` is executed file with SUID set looks like that:
-`-rwSrw-r-- 1 mz mz    0 Apr  2 20:55 testsuidfile` - when there is not execute permission (capital `S`)
-`-rwsrw-r-- 1 mz mz    0 Apr  2 20:55 testsuidfile` - when `x` was set (lowercase `s`)
-`chmod 2664 sgidfile` - `2` sets SGID
-`chmod 1664 stickydirectory` - sets sticky bit
+* `chmod 4664 suidfile` - `4` at the beggining is setting the SUID bit. When `ls -lh` is executed file with SUID set looks like that:
+* `-rwSrw-r-- 1 mz mz    0 Apr  2 20:55 testsuidfile` - when there is not execute permission (capital `S`)
+* `-rwsrw-r-- 1 mz mz    0 Apr  2 20:55 testsuidfile` - when `x` was set (lowercase `s`)
+* `chmod 2664 sgidfile` - `2` sets SGID
+* `chmod 1664 stickydirectory` - sets sticky bit
 
 #### finding SUID/SGID files:
 `find . -perm /4000` or `find . -perm /2000` (group) or `find . -perm /6000` (both)
