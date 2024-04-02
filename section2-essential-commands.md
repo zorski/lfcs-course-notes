@@ -97,3 +97,10 @@ To change permissions `chmod` command is used. Permissions can be specified in f
 `stat dog.jpg` - displays permissions
 
 * `r = 4, w = 2, x = 1`
+
+### 16. SUID, SGID and sticky bit
+When SUID is set, the file will be executed as the user ID of the owner of the file instead of user ID which actually running it.
+
+#### Setting SUID permission:
+`chmod 4664 suidfile` - `4` at the beggining is setting the SUID bit. When `ls -lh` is executed file with SUID set looks like that:
+`-rwSrw-r-- 1 mz mz    0 Apr  2 20:55 testsuidfile`
