@@ -50,7 +50,50 @@ Linux files are organized in tree structure
 
 **TODO**: practice cp / mv a bit
 
+### 12. Create and manage hard links
+file that points to the same **inode**
 
+`stat` - file info including inodes
+`ln [path_to_target] [path_to_link_file]` - creates hard link
 
+#### limitations for hard links:
+* only to files (not directories)
+* only on the same filesystem
 
+### 13. Create and manage soft links
+file that points to another file or directory on the same or different filesystem
 
+`readlink` - shows where soft link is pointing
+
+### 14. Lab: Files,directories, hard and soft links
+`ls --full-time`
+`mkdir -p`
+
+### 15. List, set, and change standard file permissions
+`chgrp [group] [filename]` - change group to which the file belongs
+`chown` - change owner to which the file belongs (e.g.`sudo chown user file.jpg`)
+
+#### permissions
+* for files:
+    - `r` / read file
+    - `w` / write to file
+    - `x` / execute file
+    - `-` / no permissions
+* for directories:
+    - `r` / read directory (`ls Pictures`)
+    - `w` / write to directory (`mkdir Picture/Family`)
+    - `x` / execute into (`cd Pictures`)
+    - `-` / no permissions
+
+Permissions are evaluated in linear fashion from left to right.
+To change permissions `chmod` command is used. Permissions can be specified in few ways, e.g.:
+* `chmod u+rw dog.jpg` - user permissions added (`rw`) for file dog.jpg
+* `chmod g-r dog.jpg` - group permissions removed (`r`) from file dog.jpg
+* `chmod o+rwx dog.jpg` - others permissions added to file dog.jpg
+* `chmod u=rw dog.jpg` - users permissions set to exactly `rw`
+* `chmod g= dog.jpg` - clear permissions from group (same as `chmod g-rwx dog.jpg`)
+* `chmod 640 dog.jpg` - sets `u=rw,g=r,o=` on file dog.jpg
+
+`stat dog.jpg` - displays permissions
+
+* `r = 4, w = 2, x = 1`
