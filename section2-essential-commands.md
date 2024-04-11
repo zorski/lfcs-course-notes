@@ -109,3 +109,22 @@ When SUID is set, the file will be executed as the user ID of the owner of the f
 
 #### finding SUID/SGID files:
 `find . -perm /4000` or `find . -perm /2000` (group) or `find . -perm /6000` (both)
+
+### 17. Search for files
+
+* `find /usr/share -name *.jpg` - all `jpg` files in `/usr/share/`
+* `find -name file1.txt` - find `file.txt` in current directory
+* `find -iname felix` - case insensitive
+* `find -mmin 5` - find files modified exactly five minutes ago
+* `find -mmin -5` - last 5 minutes
+* `find -mmin +5` - before five minutes ago (and to infinity :) )
+    - read vs change vs modified here: https://stackoverflow.com/a/3385248
+    - modified - create or edit
+    - change - metadata change
+* `find -size +512k` - 512 kb or more
+* `find -name "f*" -o -size 512k` - name starts with "f" OR size is equal to 512 kilobytes
+    - without `-o` it is a AND operator by default
+* `find -not -name "f*"` - files not starting with "f" (NOT opeator, could be also `\!`)
+* `find -perm 664` - files with exactly 664 (u=rw,g=rw,o=r) permissions
+* `find -perm -644` - at least 664
+* `find -perm /664` - any of these permissions (e.g. u=r will match)
