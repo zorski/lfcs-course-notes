@@ -128,3 +128,79 @@ When SUID is set, the file will be executed as the user ID of the owner of the f
 * `find -perm 664` - files with exactly 664 (u=rw,g=rw,o=r) permissions
 * `find -perm -644` - at least 664
 * `find -perm /664` - any of these permissions (e.g. u=r will match)
+
+### 19. Compare and manipulate file content
+* `tail`
+* `head`
+* `cat` and `tac`
+* `sed` - stream editor to  transform text data.
+* `cut`
+* `uniq` - unique entriesm but actually just removes repeating lines that are adjacent, so should be combined with `sort`
+* `diff` - compare two files and look for differences
+    - use `-c`option for context
+    - use `-y`option for side by side comparison (alternatively use `sdiff`)
+
+#### sed
+`sed 's/canda/canada/g userinfo.txt`
+    * `s` - replace
+    * `g` - global 
+    * `-i` - in-place (to commit changes to the file)
+
+
+### 20. Pagers and vi demo
+* `less` - paging through files
+    - `/` to search (navigate with `n` and `N`)
+    - `-i` to ignore case
+* `more` - older pager (move one page at time with `space` key)
+
+#### VIM
+Vi improved is a text editor. It uses modes, like `normal`, `insert`, `visual` or `replace`. 
+
+### 21. Search files using grep
+`grep 'CentOS` /etc/os-release - to search for work 'CentOS' in `/etc/os-release` file
+* `-i` - ignore case
+* `-r` - all files in directory and subdirectories (recursive)
+* `-v` - in**v**ert match
+* `-w` - match only **w**ords 
+* `-o` - only matching option
+
+### 22. Analyze text using basic regular expressions
+
+### 25. Archive, backup, compress, unpack, and uncompress files (Optional)
+
+1. Archiving (`backup.tar`)
+2. Compress (`backup.tar.gz`)
+3. Backup (copy to remote location)
+
+#### Archiving
+`tar` comes from tape archive. It is used to archive lots of files into single file. 
+* `tar --list --file archive.tar` (or shorter form `tar tf file.tar`) - to list archive's contents
+* `tar --create --file archive.tar file1` (or shorter form `tar cf archive.tar`)  - to create archive with file in it
+* `tar --append --file archive.tar file2` (or shorter form `tar rf archive.tar`) - to add file to exisiting archive
+* `tar --create --file archive.tar Pictures/` - archive whole directory and files in it
+* `tar --extract --file archive.tar --directory /tmp/` (`tar xf archive.tar`) - extract to specified directory
+
+### 26. Compress and Uncompress files (Optional)
+In Linux you can usually find these compression utilities pre-installed: `gzip`, `bzip2` and `xz` (sic).
+To compress:
+* `gzip file1`
+* `bzip2 file2`
+* `xz file3`
+
+To decompress:
+* `gunzip file1`
+* `bunzip file2`
+* `unxz file3`
+
+#### Archive and compress
+* `tar ---create --gzip --file archive.tar.gz file1`
+    - short: `tar czf archive.tar.gz file1`
+* `tar ---create --bzip2 --file archive.tar.gz file1`
+    - short: `tar cjf archive.tar.gz file1`
+* `tar ---create --xz --file archive.tar.gz file1`
+    - short: `tar cJf archive.tar.gz file1`
+* `tar --create --autocompress --file archive.tar.gz file1`
+    - short: `tar caf archive.tar.gz file1`
+
+#### Extract
+`tar xf archive.tar.gz`
