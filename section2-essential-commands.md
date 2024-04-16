@@ -204,3 +204,65 @@ To decompress:
 
 #### Extract
 `tar xf archive.tar.gz`
+
+### 27. Backup files to a Remote System (Optional)
+Popular tool to copy data to remote location is `rsync`. Disks and partition can be backuped up using `dd`.
+
+#### rysnc
+`rsync -a Picutres/ aaron@9.9.9.9:/home/aaron/Pictures/`
+* `-a` - archive  mode - symbolic linksdevices, attributes, permissions, ownerships, etc. are preserved in the  transfer
+* always suffix directories with `/` 
+
+#### dd
+`dd` can back up whole disk or partition
+* `sudo dd if=/dev/vda of=diskimage.raw bs=1M status=progress` - to back up to disk `/dev/vda` to file `diskimage.raw` (block size of `1M`)
+    - disk should be unmounted
+* `sudo dd if=diskimage.raw of=/dev/vda bs=1M status=progress` - to restore from file
+
+### 28. Use input-output redirection (e.g. >, >>, |, 2>)
+
+#### streams
+* stdin (`<`) - standard input
+* stdout (`1>`) - standard output
+* stderr (`2>`) - standard error
+
+#### examples
+* `date > file_with_date.txt` - to redirect output of `date` command to a file (also `1>`)
+* `date >> file_with_dates.txt` - to redirect and also append to a file
+* `find / -name "file" 2> /dev/null` - redirect errors only to null device
+* `grep -r '^The' /etc/ 1>> output.txt 2>> errors.txt` - append stdout and stderr to separate files
+* `grep -r '^The' /etc/ 1> output.txt 2>&1` - output stdout and stderr to same file (short-hand `&>`)
+
+#### heredoc and here string
+```
+sort <<EOF
+> 5
+> 2
+> 1
+> 6
+> EOF
+1
+2
+5
+6
+```
+
+`bc <<<1+2+4+5` - here string 
+
+#### piping
+`|` - pipe character can be used to 
+
+### 30. Work with SSL certificates
+Tool to manage certificates and other cryptography operations on Linux is `openssl`
+`openssl` contains various subcommands.
+
+`req` subcommands deals with CSRs (Cerficate Signing Requests):
+* `openssl req -newkey rsa:2048 -keyout key.pem -out req.pem` - generates a CSR and a private key
+* `openssl req -x509 -noenc -newkey rsa:4096 -days 365 -keyout myprivate.key -out mycertificate.crt` - generates self-signed certificate
+    - `noenc` - doesn't encrypt private key (doesn't ask for password)
+    - `-x509` - generate x509 certificate instead of CSR
+
+`x509` subcommand deals with cerificates (of x509 type), like `openssl x509 -in mycertificate.crt -text` which decodes certificate to user friendly form.
+
+#### help 
+`man openssl`, but also `man openssl-<subcommand>`
