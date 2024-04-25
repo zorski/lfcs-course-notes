@@ -266,3 +266,8 @@ Tool to manage certificates and other cryptography operations on Linux is `opens
 
 #### help 
 `man openssl`, but also `man openssl-<subcommand>`
+
+### 32. Staging and Committing changes
+
+
+
