@@ -32,6 +32,13 @@ dnf reinstall grub2-efi grub2-efi-modules shim
 #### changes to grub config
 edit `/etc/default/grub`  and  run `sudo grub2-mkconfig -o /boot/grub2/grub.cfg` (for bios based) or `grub2-mkconfig -o /boot/efi/EFI/centos/grub.cfg` (for EFI)
 
+### 38. Use scripting to automate system maintenance tasks
+`#!/bin/bash` - shebang
+`#!/usr/bin/env bash` - another shebang
+`chmod u+x script.sh` - grant execute permission
+`help` - list builtins
+`cat /etc/cron.hourly/0anacron` - cheatsheet for common syntax
+
 ### 39. Manage the startup process and services (In Services Configuration)
 * `systemctl edit --full sshd.service` - edit service config
 * `systemctl revert sshd.service` - revert to defaults
@@ -59,9 +66,4 @@ edit `/etc/default/grub`  and  run `sudo grub2-mkconfig -o /boot/grub2/grub.cfg`
 `ls /lib/systemd/system` - possbile sample unit files
 `/etc/systemd/system` - unit files are located here
 
-`systemctl daemon-reload` - reload systemd### 38. Use scripting to automate system maintenance tasks
-`#!/bin/bash` - shebang
-`#!/usr/bin/env bash` - another shebang
-`chmod u+x script.sh` - grant execute permission
-`help` - list builtins
-`cat /etc/cron.hourly/0anacron` - cheatsheet for common syntax
+`systemctl daemon-reload` - reload systemd
