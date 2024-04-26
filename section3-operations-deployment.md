@@ -33,4 +33,15 @@ dnf reinstall grub2-efi grub2-efi-modules shim
 edit `/etc/default/grub`  and  run `sudo grub2-mkconfig -o /boot/grub2/grub.cfg` (for bios based) or `grub2-mkconfig -o /boot/efi/EFI/centos/grub.cfg` (for EFI)
 
 
+### 40. Create systemd Services
 
+* `systemd-cat` - receives a message and logs it
+    - `echo "MyApp Started" | systemd-cat -t MyApp -p info`
+    - `echo "MyApp Crashed" | systemd-cat -t MyApp -p err`
+
+#### unit files
+`man systemd.service` - help
+`ls /lib/systemd/system` - possbile sample unit files
+`/etc/systemd/system` - unit files are located here
+
+`systemctl daemon-reload` - reload systemd
