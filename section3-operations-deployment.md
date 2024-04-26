@@ -33,4 +33,37 @@ dnf reinstall grub2-efi grub2-efi-modules shim
 edit `/etc/default/grub`  and  run `sudo grub2-mkconfig -o /boot/grub2/grub.cfg` (for bios based) or `grub2-mkconfig -o /boot/efi/EFI/centos/grub.cfg` (for EFI)
 
 
+### 38. Use scripting to automate system maintenance tasks
+`#!/bin/bash` - shebang
+`#!/usr/bin/env bash` - another shebang
+`chmod u+x script.sh` - grant execute permission
+`help` - list builtins
+`cat /etc/cron.hourly/0anacron` - cheatsheet for common syntax
 
+### 39. Manage the startup process and services (In Services Configuration)
+* `systemctl edit --full sshd.service` - edit service config
+* `systemctl revert sshd.service` - revert to defaults
+* `systemctl status sshd.service` - status of the service (loaded,enabled,active,logs)
+    - enabled
+    - active
+    - PID
+
+* `systemctl stop sshd.service`, `systemctl start sshd.service`, `systemctl restart sshd.service`
+* `systemctl reload sshd.service`
+* `systemctl reload-or-restart sshd.service`
+* `systemctl disable sshd.service`, `systemctl enable sshd.service` - enable to run automtically at boot
+* `systemctl enable --now sshd.service` - enable and start
+* `systemctl mask atd.service` - service cannot be enabled or started
+* `systemctl list-units --type service --all` - list all services
+
+### 40. Create systemd Services
+
+    systemd-cat - receives a message and logs it
+        echo "MyApp Started" | systemd-cat -t MyApp -p info
+        echo "MyApp Crashed" | systemd-cat -t MyApp -p err
+
+unit files
+
+man systemd.service - help ls /lib/systemd/system - possbile sample unit files /etc/systemd/system - unit files are located here
+
+systemctl daemon-reload - reload systemd
