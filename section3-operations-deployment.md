@@ -45,3 +45,10 @@ edit `/etc/default/grub`  and  run `sudo grub2-mkconfig -o /boot/grub2/grub.cfg`
 `/etc/systemd/system` - unit files are located here
 
 `systemctl daemon-reload` - reload systemd
+
+### 42. Diagnose and manage processes
+`ps` - inspect processes, supports two syntaxes (with and without dash: unix and bsd syntax)
+    - `ps aux` - all processes (in BSD syntax)
+    - processes wrapped in brackets are kernel processes running inside a of a privileged area of Linux Kernel
+    - `ps -U username` - processes by user
+`top` - continously watch processes
