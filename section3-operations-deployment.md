@@ -69,9 +69,15 @@ edit `/etc/default/grub`  and  run `sudo grub2-mkconfig -o /boot/grub2/grub.cfg`
 
 ### 42. Diagnose and manage processes
 `nice -n 11 bash` - assign a value of 11 to bash
+`ps` - inspect processes, supports two syntaxes (with and without dash: unix and bsd syntax)
 `ps l` - displays nice values for processes
 `ps lax` - all processes and extended information (incl. nice values)
 `ps fax` - tree like view of processes with parent/child relationship\
+
+    - `ps aux` - all processes (in BSD syntax)
+    - processes wrapped in brackets are kernel processes running inside a of a privileged area of Linux Kernel
+    - `ps -U username` - processes by user
+`top` - continously watch processes
 
 #### nice
 
