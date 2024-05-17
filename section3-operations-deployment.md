@@ -134,3 +134,68 @@ List of signals can be displayed using `kill -L`, signals can be used with `kill
 
 * `last` - list logins on the system
 * `lastlog` - lists when user logged last time
+
+
+### 45. Schedule tasks to run at the set date and time
+* cron
+* anacron
+* at
+
+#### cron
+`cat /etc/crontab` - example format to lookup
+
+`*` - match all possible values
+`,` - multiple values
+`-` - range
+`/` - step
+
+
+```
+35 6 * * * /usr/bin/touch test_passed // everyday at 06:35
+0 3 * * 7 /usr/bin/touch test_passed // every sunday at 3:00
+0 * * * * /usr/bin/touch test_passed // once every hour
+0 3 15 * * /usr/bin/touch test_passed // 15th day of the month at 3:00
+```
+##### commands
+`crontab -e` - edit current user's cron table
+`crontab -l` - list cron jobs
+`sudo crontab -e -u jane` - edit crontab of user `jane` (only as `root`)
+`crontab -r` - remove
+
+Cronjobs can also be run by placing them in following directories:
+* `/etc/cron.daily/`
+* `/etc/cron.hourly/`
+* `/etc/cron.monthly/`
+* `/etc/cron.weekly/`
+
+Whatever is placed in these directories will run accordingly.
+
+#### anacron
+anacron will run after schedule is missed (e.g. server was powered off).
+`sudo vim /etc/anacrontab`
+```
+7   10  test-job    /usr/bin/touch job_run
+```
+
+#### at
+`at` can be used to run command at specific time and/or date. Command is run with `at` and date or time, command is specified and accepted using `CTRL+d`.
+
+```
+at 15:00
+at> /usr/bin/touch at_job
+
+at 'August 20 2024'
+at> /usr/bin/touch august_job
+
+
+at 'now + 30 minutes'
+at 'now + 3 days'
+
+```
+
+`atq` commands lists jobs which are still in queue (at queue)
+`at -c <id>` - prints **c**ontents of at jobs
+`atrm <id>` - remove at job
+
+
+
