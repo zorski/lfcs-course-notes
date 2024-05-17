@@ -132,3 +132,5 @@ List of signals can be displayed using `kill -L`, signals can be used with `kill
 * info
 * debug
 
+* `last` - list logins on the system
+* `lastlog` - lists when user logged last time
