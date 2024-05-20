@@ -193,9 +193,9 @@ at 'now + 3 days'
 
 ```
 
-`atq` commands lists jobs which are still in queue (at queue)
-`at -c <id>` - prints **c**ontents of at jobs
-`atrm <id>` - remove at job
+`atq` commands lists jobs which are still in queue (at queue)  
+`at -c <id>` - prints **c**ontents of at jobs  
+`atrm <id>` - remove at job  
 
 
 
