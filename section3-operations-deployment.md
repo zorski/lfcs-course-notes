@@ -198,4 +198,13 @@ at 'now + 3 days'
 `atrm <id>` - remove at job  
 
 
+### 46. Verify Completion of Scheduled Jobs
+`cat /var/log/cron`  
+`cat /etc/crontab` - system wide crontab and refresher on job spec format
+`cat /etc/anacrontab`
+`systemd-cat`
+`sudo anacron -n -f` - force rerun of every job
+`at 'now + 1 minute'` - run job 1 min from now
+
+`sudo crontab -l` - root's crontab
 
