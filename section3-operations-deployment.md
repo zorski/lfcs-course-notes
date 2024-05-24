@@ -208,3 +208,110 @@ at 'now + 3 days'
 
 `sudo crontab -l` - root's crontab
 
+
+### 48. Manage Software with the Package Manager
+* `apt update` 
+* `apt list --upgradable`
+* `apt upgrade`
+* `apt show <package>`
+* `sudo apt remove <package>` and `sudo apt autoremove` to remove unneeded dependencies
+* `sudo apt autoremove <package>` 
+
+#### dpkg tool
+`dpkg --listfiles <package>`
+`dpkg --search <path to file>` - will show to which package this file belongs
+
+### 49. Configure the Repositories of the Package
+`/etc/apt/sources.list` - contains a list of repositories
+* main - maintained by Ubuntu team
+* universe - maintained by community
+* multiverse - grey area regarding copyright
+* restricted - closed-source (eg. video card drivers)
+
+#### third-party repositories
+For example to add a repository for `docker`:  
+1. `sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o docker.key` - to download public key for docker repository
+2. `gpg --dearmor docker.key` - convert key to binary format (`dearmoring`)
+3. `sudo mv docker.key.gpg /etc/apt/keyrings/` - copy dearmored key to proper location
+4. `sudo vi /etc/apt/sources.list.d/docker.list` - create a separate file for docker repo
+5. `deb[signed-by=/etc/apt/keyrings.key.gpg] https://download.docker.com/linux/ubuntu jammy stable` needs to be added to `docker.list` file
+
+##### PPA
+Personal package archive
+`sudo add-apt-repository ppa:graphics-drivers/ppa` - add repository 
+ss
+### 50. Install software by compiling source code
+On the example of `htop`:
+1. `git clone https://github.com/htop-dev/htop.git` - clone source code from git repository
+2. `cd htop` - cd into project directory
+3. `less README` - review readme file for dependencies and install instructions
+```README
+Install these and other required packages for C development from your package manager.
+
+**Debian/Ubuntu**
+~~~ shell
+sudo apt install libncursesw5-dev autotools-dev autoconf automake build-essential
+~~~
+```
+
+4. `sudo apt install libncursesw5-dev autotools-dev autoconf automake build-essential`
+5. `./autogen.sh` - to generate `configure` executable file (usually equivalent to `autoreconf --install`)
+6. `./configure` - to generate `Makefile`
+7. `make` and `make install`
+
+more: https://stackoverflow.com/a/50044385
+
+### 51. Verify the integrity and availability of recources
+`df -h` - reports file system space usage in human-readable form
+`du -sh /bin/` - estimate file space usage in `/bin/` directory
+`free -h` - memory (available column is memory available to programs)
+`uptime` - load average
+`lscpu` and `lspci`
+`systemctl list-dependencies`
+
+#### check filesystem for errors
+Disk needs to unmounted first:
+`sudo xfs_repair -v /dev/vdb1` - on XFS filesystem
+`sudo fsck.ext4 -v -f -p /dev/vdb2` on EXT4 filesystem
+
+### 53. Change kernel runtime paramters, persistent and non-persistent
+* `sysctl -a` - list all kernel parameters and its' values (use with `sudo` if cannot read all)
+* `sysctl -w <parameter>=<value>` - **w**rite value (non-persistent)
+    - `sudo sysctl -w vm.swappiness=40`
+* `/etc/sysctl.d/` - directory where persistent parameters and values can be set and will take effect after system restart
+* `sudo sysctl -p /etc/sysctl.d/custom-vm-swappiness.conf` - setting value before restart 
+* `man sysctl.d`
+
+### 54. List and Identify SELinux/AppArmor file and process contexts
+`ls -Z` - list files with SELinux labels
+```
+ls -Z
+unconfined_u:object_r:user_home_t:s0
+
+```
+Output translates to:
+* unconfined_u - user
+* object_r - role
+* user_user_home_t - type
+* s0 - level
+
+`ps axZ` - list processess with SELinux labels
+`id -Z`
+`sudo semanage login -l`
+`sudo semanage user -l` 
+`getenforce` - check SELinux status:
+    - `Enforcing`
+    - `Permissive`
+    - `Disabled`
+
+Set status to `Permissive` or `Enforcing`:
+* `setenforce Enforcing` or `setenforce 1`
+* `setenforce Permissive` or `setenforce 0`
+
+Set context for SELinux object, e.g:
+* `sudo chcon -t httpd_sys_content_t /var/index.html`
+
+List roles for user `xguest_u`:
+* `sudo semanage user -l | grep xguest_u` 
+
+
