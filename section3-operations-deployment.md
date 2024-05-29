@@ -315,3 +315,27 @@ List roles for user `xguest_u`:
 * `sudo semanage user -l | grep xguest_u` 
 
 
+### 56 Create and enforce MAC using SELinux
+
+* `audo audit2why --all | less` - translates SELinux audit messages into a description of why the access was denied
+* `ps -eZ | grep sshd_t`
+* `sudo audit2allow --all -M mymodule` - generated `mymodule.pp` package
+    - it could be applied with `semodule -i mymodule.pp`
+    - `sudo setenforce 1` - switch to `Enforcing` mode (temporarily till next reboot)
+    - `/etc/selinux/config` - to switch permanently
+    - `module.te` files is also created with clear-text version of `module.pp` file
+* `chcon` to set user/role/type labels
+* `seinfo -t`, `seinfo -r`, `seinfo -u` - available labels
+* `sudo chcon --reference=/var/log/syslog /var/log/auth.log` - apply labels based on reference file
+* `sudo restorecon -R /var/www` - SELinux will try to apply labels based on database of known label configurations (use `-F` to restore all labels, not just type)
+* `semanage fcontext --add --type var_log_t /var/www/10` - set new default label for file or directory
+    - `semanage fcontext --add --type nfs_t "/nfs/shares(/.*)?"` - to apply to directory regex is used
+
+#### selinux booleans
+* `sudo semanage booleans --list` - list of available booleans
+    - `sudo setsebool virt_use_nfs 1`
+    - `getsebool virt_use_nfs`
+
+### port bindings
+* `sudo semanage port --list`
+* `sudo semanage port --add --type ssh_port_t --proto tcp 2222`
