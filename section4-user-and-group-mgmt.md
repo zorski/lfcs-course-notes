@@ -195,4 +195,46 @@ to view limit for current session `ulimit -a`
 
 `sudo passwd --lock root` - can be used to lock root, however, it is important to make sure users can sudo. It also doesn't prevent already established logins (like via ssh keys)
 
+### 64. PAM
+PAM short for Pluggable Authentication Modules.
 
+PAM related files:
+* `/etc/pam.d/`
+* `man pam.conf`
+
+`cat /etc/pam.d/su`
+```
+#%PAM-1.0
+auth            sufficient      pam_rootok.so
+# Uncomment the following line to implicitly trust users in the "wheel" group.
+#auth           sufficient      pam_wheel.so trust use_uid
+# Uncomment the following line to require a user to be in the "wheel" group.
+#auth           required        pam_wheel.so use_uid
+auth            required        pam_unix.so
+account         required        pam_unix.so
+session	        required        pam_unix.so
+password        include         system-auth
+```
+PAM configuration file look above. It contains a list rules (almost always one per line) which are evaulated top to bottom. The format of the rule is (except files in `pam.d` directory, then `service` name is the name of the file):
+```
+service type control module-path module-arguments
+```
+#### type
+* account - non-auth account management, like restrict/permit access based on time of day etc.
+* auth - it authenticates (checks if users is who they claim they is) and also can grant group membership or other privileges
+* password - updating password (or other auth token?)
+* session - action taken after or before access granted (logging, preparing env etc.)
+
+
+#### control
+* **required** - failure on this module leads to PAM returning failure, however, after the rest of modules are evaluated (could be that there's a module for logging the failure etc.)
+* **requisite** - if fails it exits and does not move to next module (stronger `required`) 
+* **sufficient** - if such module succeeds and no prior `required` module failed it return *success*
+* **optional** - the success or failure of this module is only important if it is the only module in the stack
+* **include**
+* **substack**
+
+#### module-path / module-arguments
+
+### 65. Configure the system to use LDAP user and group accounts
+zrobic notatki jutro i przetestowac na labie ze swoim serwerem ldap (moze FreeIPA tez?)
