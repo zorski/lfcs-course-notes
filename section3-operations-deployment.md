@@ -314,6 +314,15 @@ Set context for SELinux object, e.g:
 List roles for user `xguest_u`:
 * `sudo semanage user -l | grep xguest_u` 
 
+### 56. Create and enforce MAC using SELinux (on Ubuntu)
+1. Disable apparmor - `sudo systemctl stop apparmor.service` and `sudo systemctl disable apparmor.service`
+2. Install `sudo apt install selinux-basic auditd`
+3. check if enabled `sestatus`
+4. `sudo selinux-activate` - re-label system, modify bootloader
+* `GRUB_CMDLINE_LINUX=" security=selinux"`
+* `.autorelabel` - file is created
+* relabeling after reboot
+5. 
 
 ### 56 Create and enforce MAC using SELinux
 
