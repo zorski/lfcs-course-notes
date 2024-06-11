@@ -159,5 +159,21 @@ QEMU/KVM is a virtualization solution on Linux (main one). QEMU/KVM can managed 
     - `qemu-kvm` - create them
 * `virsh help` - check commands
  - `domain` - virtual machine
- - `virsh reset`, `virsh shutdown`, `virsh destroy` (forced power-off)
+ - `virsh reset`
+ - `virsh shutdown`
+ - `virsh destroy` (forced power-off)
+ - `virsh undefine` - remove but keep data
+ - `virsh undefine --remove-all-storage`
+ - `virsh autostart`
+ - `virsh dominfo` - info on VM
 
+ #### add vcpus
+ 1. `virsh setvcpus TestMachine01 2 --config --maximum` - first set max
+ 2. `virsh setvcpus TestMachine01 2 --config` - then assign
+
+### 14. Create and Boot a Virtual Machine ✨
+* `qemu-img` - inspect img file
+    - virtual size -> `qemu-img resize` to resize
+    - copy to `/var/lib/libvirt/images`
+* `virt-install --osinfo ubuntu 22.04 --name ubuntu01 --memory 1024 --vcpus 1 --import --disk /var/lib/libvirt/images/ubuntu-22.04-minimal-cloudimg-amd64.img --graphics none` - example command for creating vm with ubuntu 
+* `--cloud-init` - to utilize cloudinit, e.g. for root password creation 
