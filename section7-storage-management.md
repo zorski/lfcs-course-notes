@@ -129,7 +129,46 @@ This allow sharing block devices through network
     - `tps` - transfers per second (read or write something)
 
 
-lklklkl
+### 8. Manage and configure LVM storage
+* PV - physical volume
+* VG - volume group
+* LV - logical volume (similar to partition)
+
+#### add disk as PV to LVM
+1. `sudo pvcreate /dev/sdc /dev/sdd` - adds `/dev/sdc` and `/dev/sdd`
+2. `sudo pvs` - list currently added physical volumes
+    - `PFree` - show unused storage space
+
+#### create and add Volume Group (vg)
+1. `sudo vgcreate my_volume /dev/sdc /dev/sdd` - create and add disks to volume group
+    - it will be seen as a single continous disk (e.g. 5G + 5G = 10G)
+2. to expand:
+    - `sudo pvcreate /dev/sde` - add new disk as a physical volume
+    - `sudo vgextend  my_volume /dev/sde` - extends existing volume group with additional disk (pv)
+3. to remove:
+    - `sudo vgreduce my_volume /dev/sde` - removing PV from VG
+    - `sudo pvremove /dev/sde` - remove disk from LVM entirely
+
+#### create logical volume
+1. `sudo lvcreate --size 2G --name partition1 my_volume`
+    - *partition1* (lv) of size 2G was created as a part of *my_volume* (vg)
+2. `sudo lvcreate --size 6G --name partition my_volume`
+3. `sudo lvs` - list logical volumes
+4. to resize: 
+    - grow: `sudo lvresize --extents 100%VG my_volume/partition1` (extends to 100% of VG)
+    - shrink: `sudo lvresize --size 2G my_volume/partition1`
+
+
+* `sudo lvdisplay` - details on logical volumes (e.g. get LV path / name)
+
+* `sudo mkfs.xfs /dev/my_volume/partition1` to create filesystem on LV
+
+#### resizing on already formatted partition
+`sudo lvresize --resizefs --size 3G my_volume/partition1` - resizing LV and filesystem as well
+
+refs: `man lvm`:
+* SEE ALSO section for all commands
+
 
 
 
