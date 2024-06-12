@@ -195,3 +195,42 @@ refs: `man lvm`:
 13/17: "Setup `/dev/vde` as an encrypted disk. The mapped device should be called `secretdisk`.
 Use plain type encryption (not LUKS) and the password must be `S3curepass`."
 * `sudo cryptsetup --type plain --verify-passphrase secretdisk /dev/vde` 
+
+
+### 10. Create and manage RAID devices
+
+#### RAID Levels
+* level 0 (stripped) - total space is a sum of all disks
+* level 1 (mirror)
+* level 5 (parity) - all disks have parity data on all of them
+    - one disk can be lost
+* level 6 () - 4 disks required
+* level 10 (stripped + mirror)
+
+
+#### creating RAID arrays
+`mdadm` tools is used to create RAID arrays
+
+```
+sudo mdam --create /dev/md0 --level=0 --raid-devices=3 /dev/vdc /dev/vdd /dev/vde
+sudo mkfs.ext4 /dev/md0
+sudo mdam --stop /dev/md0
+```
+
+When boots up Linux scans up for superblock of all devices, it means it will try to check for information if disks are not a part of RAID array. If such information is found, Linux will try to reassemble it and create randomly numbered  array (e.g. `/dev/md123`).
+
+In order to prevent, data can be wiped on superblocks: `sudo mdadm --zero-superblock /dev/vdc /dev/vdd /dev/vde`.
+
+#### adding spare disks
+```
+sudo mdam --create /dev/md0 --level=1 --raid-devices=2 /dev/vdc /dev/vdd --spare-devices=1 /dev/vde
+```
+
+#### addding or removing disk for already existing RAID array
+```
+sudo mdadm --manage /dev/md0 --add /dev/vde
+
+sudo mdam --manage /dev/md0 --remove /dev/vde
+```
+
+* `cat /proc/mdstat` - RAID info
