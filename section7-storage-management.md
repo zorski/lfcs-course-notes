@@ -169,6 +169,29 @@ This allow sharing block devices through network
 refs: `man lvm`:
 * SEE ALSO section for all commands
 
+### 9. Create and configure encrypted storage
 
+1. Encrypt disk in plain mode: `sudo cryptsetup --verify-passphrase open --type plain /dev/vde mysecuredisk`
+    - `--verify-passphrase` - ask for passphrase twice
+    - `open` - action to perform, here `open` device for reading encryped data and writing to it.
+    - `type plain` - customizes `open` action to use `plain` encryption scheme
+    - `mysecuredisk` - name of the disk (can be chosed freely)
 
+2. Disk will be available under `/dev/mapper/mysecuredisk` and can be used as regular disk device
+    - write: `/dev/mapper/mysecuredisk` -> *encryption* -> `/dev/vde`
+    - read: `/dev/vde` -> *decryption* -> `/dev/mapper/mysecuredisk`
 
+3. `close` device: `sudo cryptsetup close mysecuredisk`
+
+#### LUKS encryption
+1. `sudo cryptsetup luksFormat /dev/vde` - to setup
+2. `sudo cryptsetup luksChangeKey /dev/vde` - changes passphrase
+3. `sudo cryptsetup open /dev/vde mysecuredisk` - to open device with LUKS
+4. `sudo cryptsetup close mysecuredisk`
+
+#### to encrypt part of the disk
+1. `sudo cryptsetup luksFormat /dev/vde2` - to setup just specify partition instead of block device
+
+13/17: "Setup `/dev/vde` as an encrypted disk. The mapped device should be called `secretdisk`.
+Use plain type encryption (not LUKS) and the password must be `S3curepass`."
+* `sudo cryptsetup --type plain --verify-passphrase secretdisk /dev/vde` 
