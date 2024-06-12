@@ -64,3 +64,72 @@ mynetworkshare -fstype=auto 127.0.0.1:/etc
 ```
 /dev/vdb1 /mybackups xfs ro,noexec 0 2
 ```
+
+### 5. Use remote filesystems - NFS
+* `sudo apt install nfs-kernel-server`
+* `sudo vim /etc/exports`
+```
+/srv/homes hostname1(rw,sync,no_subtree_check) hostname2(ro,sync,no_subtree_check)
+```
+
+* `rw`/`ro` - readwrite and read-only
+* `sync` - synchronous writes (vs asynchronous writes)
+* `no_subtree_check` - disables subtree checking
+* `no_root_squash`
+
+* `sudo exportfs -r` - refresh exports 
+* `sudo exportfs -v` - list current exports
+
+#### tips
+* wildcards can be used:
+```
+/etc *.example.com(ro,sync,no_subtree_check)
+/var/log *(ro,sync,no_root_squash)
+```
+
+#### client utilities
+* `sudo apt install nfs-common`
+* `sudo mount nfsserver01:/etc /mnt` - mount nfs share
+* `sudo umount /mnt`
+
+### 6. Use Network Block Devices
+This allow sharing block devices through network
+
+#### server
+1. `sudo apt install nbd-server` - install Network Block Devices package
+2. `sudo vim /etc/nbd-server/config`:
+```
+[generic]
+    includedir = /etc/nbd-server/conf.d
+    allowlist = true
+[partition1]
+    exportname = /dev/vda1
+```
+
+3. Restart nbd deamon `sudo systemctl restart nbd-server.service`
+4. Help `man nbd-server`
+
+#### client
+1. `sudo apt install nbd-client`
+2. `sudo modprobe nbd` load module into kernel
+    - `sudo /etc/modules-load.d/modules.conf` to load it permanently (add `nbd` line to the file)
+3. `sudo nbd-client 192.168.30.4 -N partition1` - to attach network block device
+4. `sudo mount /dev/nbd0 /mnt`
+5. to detach:
+    - `sudo umount /mnt`
+    - `sudo nbd-client -d /dev/nbd0`
+6. to list available exports `sudo nbd-client 192.168.30.4 -l` 
+    - `allowlist = true` option made listing possible 
+
+### 7. Monitor storage performance
+* `sysstat` package:
+    - `iostat` and `pidstat`
+
+* `iostat`:
+    - `tps` - transfers per second (read or write something)
+
+
+lklklkl
+
+
+
