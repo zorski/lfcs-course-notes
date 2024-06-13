@@ -234,3 +234,37 @@ sudo mdam --manage /dev/md0 --remove /dev/vde
 ```
 
 * `cat /proc/mdstat` - RAID info
+
+### 11. Create, manage and diagnose advanced file system permissions
+`setfacl` - set advanced file permissions 
+1. `sudo setfacl --modify user:aaron:rw examplefile`
+2. file which have additional acls set have `+` at the end of permission string
+    - ``
+3. `getfacl` - to list permissions
+4. `sudo setfacl --recursive -m --modify user:aaron:rwx dir/` - recursively apply to directory and everyting below
+
+#### file and directory attributes
+
+1. `append-only` attribute on a file
+    - `chattr +a example_file` to add
+    - with this attribute data can only be added to file, but **not** modified
+    - `chattr -a example_file` to remove
+2. `immutable` attribute:
+    - `chattr +i example_file`
+    - file with this attribute can be changed in any way 
+    - not even `root` can change it (incl. removal)
+3. Check for attributes with `lsattr example_file`
+4. Other attributes `man chattr`
+
+### 12. Setup user and group disk quotas for filesystems
+Quota limit 
+
+1. `sudo dnf install quota` - to install quota packages
+2. edit `/etc/fstab`
+```
+/dev/vdb1 /mybackups xfs defaults,usrquota,grpquota 0 2
+```
+
+3. reboot server
+    - on `xfs` it is already set
+    - on other filesystems
