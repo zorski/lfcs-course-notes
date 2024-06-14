@@ -280,3 +280,21 @@ Quota limit
 ### MOCK EXAM 1
 * suid once again
 * sticky bit
+* find permission and size searches
+* 7th - case insensitive?
+* zip  
+ -  sudo unzip backup.zip -d /opt/restoredzip/
+* limits.conf
+* removing user from group
+    -  `sudo gpasswd -d jack wheel`
+* diff options
+* ip command adding routes
+* lvm man pages
+
+#### issues:
+Q. 3 : subtask "Copied "file4" to the "/opt/newdir" directory?" always fails
+Q. 5 : subtask "Found user executable files?" always fails
+Q. 6 : this task always fails
+Q. 13 : i think that in this task you require spaces and not tabs, so it failed for this "jane    hard    nproc   30" from me
+Q. 19 : failed even though correct pid was in the "/opt/pidof22.txt"
+Q. 22 : subtask "frozenfile" file is no longer immutable?" failed even though file is not longer immutable (checked with lsattr)
