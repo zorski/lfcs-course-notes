@@ -264,7 +264,19 @@ Quota limit
 ```
 /dev/vdb1 /mybackups xfs defaults,usrquota,grpquota 0 2
 ```
-
 3. reboot server
-    - on `xfs` it is already set
-    - on other filesystems
+    - on `xfs` it is already set adn ready to use
+    - on other filesystems (like `exqt4`) additional step are required
+4. On `ext4`:
+    - `sudo quotacheck --create-files --user --group /dev/vdb2` will create two files `aquota.group` and `aquota.user`. In these files system will keep track how much storage space each user/group is using.
+    - `sudo quoaton /mnt/` - announces to the system that disk quotas should be enabled on one or more filesystems. The filesystem quota files must be present in the root directory of the specified filesystem and be named either aquota.user (for version 2 user quota), quota.user (for version 1 user quota), aquota.group (for version 2 group quota), or quota.group (for version 1 group quota). 
+
+5. `sudo quota --user aaron` - checks quota for user
+6. `sudo edquota --user aaron` - edit quotas for user
+7. `sudo edquota --edit-period` - to edit grace periods
+8. `sudo edquota --group adm` - to edit quota for group
+
+
+### MOCK EXAM 1
+* suid once again
+* sticky bit
