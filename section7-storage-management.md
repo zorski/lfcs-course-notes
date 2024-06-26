@@ -298,3 +298,28 @@ Q. 6 : this task always fails
 Q. 13 : i think that in this task you require spaces and not tabs, so it failed for this "jane    hard    nproc   30" from me
 Q. 19 : failed even though correct pid was in the "/opt/pidof22.txt"
 Q. 22 : subtask "frozenfile" file is no longer immutable?" failed even though file is not longer immutable (checked with lsattr)
+
+### MOCK EXAM 2
+* `rpm -qf` / `dnf whatprovides`
+* `man find` - tutorial on yt?
+* `diff` - shorte readup on command line option
+* read up on `anacron` and `at`
+* read up on sudoers -> `man 5 sudoers`
+* `firewall-cmd`
+* `q 22` - auto mount 
+
+
+10. Anacron job -> "sh -c" is not required just path to the script
+17. `systemctl restart firewalld` -> after setting rules
+18. `sudo newaliases` after setting new alias
+19. `sudo systemctl restart sshd` after changing settings
+24. on XFS `sudo xfs_quota -x -c 'limit bsoft=100m bhard=500m bob' /mydata/`
+
+### MOCK EXAM 3
+* `find` again learn the options
+* password / account expiration stuff
+
+* environment
+* LUKS commands
+* `/etc/environment` - system-wide environment profile
+* quotas
